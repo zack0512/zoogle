@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Google 搜尋引擎首頁</title>
+    <!-- 引入 Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- 引入字型與圖示 -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+    </style>
+</head>
+<body class="bg-white text-slate-800 min-h-screen flex flex-col justify-between selection:bg-blue-500 selection:text-white">
+
+    <!-- 頂端導覽列 -->
+    <header class="w-full p-4 flex justify-end items-center space-x-4 text-sm font-medium">
+        <a href="https://www.google.com.tw/imghp?hl=zh-TW&ogbl" target="_blank" class="text-slate-600 hover:text-blue-600 transition-colors py-1 px-2 rounded-md hover:bg-slate-100">圖片</a>
+        <a href="https://about.google/" target="_blank" class="text-slate-600 hover:text-blue-600 transition-colors py-1 px-2 rounded-md hover:bg-slate-100">關於</a>
+        <button class="w-9 h-9 rounded-full bg-blue-600 text-white flex items-center justify-center shadow-md hover:bg-blue-700 transition-transform active:scale-95" title="Google 帳戶">
+            <i class="fa-solid fa-user"></i>
+        </button>
+    </header>
+
+    <!-- 主要內容區 (置中搜尋) -->
+    <main class="w-full max-w-2xl mx-auto px-4 flex flex-col items-center -mt-16">
+        <!-- Logo 標題 -->
+        <div class="mb-8 text-center">
+            <h1 class="text-6xl md:text-7xl font-semibold tracking-tight text-slate-900 select-none">
+                G<span class="text-blue-600">o</span><span class="text-red-500">o</span><span class="text-amber-500">g</span><span class="text-blue-600">l</span><span class="text-green-600">e</span>
+            </h1>
+        </div>
+
+        <!-- 搜尋表單：指定 action 指向 Google 搜尋，並確保 method 為 GET -->
+        <form id="searchForm" action="https://www.google.com/search" method="GET" target="_blank" class="w-full">
+            <div class="relative flex items-center group">
+                <!-- 放大鏡圖示 -->
+                <span class="absolute left-4 text-slate-400 group-focus-within:text-blue-600 transition-colors text-lg">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                </span>
+
+                <!-- 搜尋輸入框：name 必須設定為 "q" 才能被 Google 接收 -->
+                <input 
+                    type="text" 
+                    name="q" 
+                    id="searchInput"
+                    placeholder="請輸入搜尋內容..." 
+                    autocomplete="off"
+                    required
+                    class="w-full pl-12 pr-12 py-4 bg-white border border-slate-200 rounded-full shadow-sm hover:shadow-md focus:shadow-lg focus:outline-none focus:border-slate-300 text-slate-800 text-base md:text-lg transition-all duration-300"
+                >
+
+                <!-- 清除按鈕 -->
+                <button type="button" id="clearBtn" class="absolute right-4 text-slate-400 hover:text-slate-600 hidden transition-colors" title="清除文字">
+                    <i class="fa-solid fa-xmark text-lg"></i>
+                </button>
+            </div>
+
+            <!-- 搜尋按鈕群組 -->
+            <div class="mt-8 flex flex-wrap justify-center gap-3">
+                <button 
+                    type="submit" 
+                    class="px-6 py-2.5 bg-slate-50 hover:bg-slate-100 text-slate-700 font-medium rounded-md text-sm border border-slate-200 hover:border-slate-300 transition-all active:scale-95 shadow-xs"
+                >
+                    Google 搜尋
+                </button>
+                <button 
+                    type="button" 
+                    id="luckyBtn"
+                    class="px-6 py-2.5 bg-slate-50 hover:bg-slate-100 text-slate-700 font-medium rounded-md text-sm border border-slate-200 hover:border-slate-300 transition-all active:scale-95 shadow-xs"
+                >
+                    好手氣
+                </button>
+            </div>
+        </form>
+    </main>
+
+    <!-- 底部資訊列 -->
+    <footer class="w-full bg-slate-100 border-t border-slate-200 text-slate-500 text-xs py-4 px-6">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-2">
+            <div class="flex space-x-6">
+                <a href="https://ads.google.com/" target="_blank" class="hover:underline">廣告</a>
+                <a href="https://www.google.com/services/" target="_blank" class="hover:underline">企業方案</a>
+                <a href="https://google.com/search/howsearchworks" target="_blank" class="hover:underline">搜尋運作方式</a>
+            </div>
+            <div class="flex space-x-6">
+                <a href="https://policies.google.com/privacy" target="_blank" class="hover:underline">隱私權</a>
+                <a href="https://policies.google.com/terms" target="_blank" class="hover:underline">條款</a>
+                <span>台灣</span>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript 互動腳本 -->
+    <script>
+        const searchInput = document.getElementById('searchInput');
+        const clearBtn = document.getElementById('clearBtn');
+        const luckyBtn = document.getElementById('luckyBtn');
+
+        // 當輸入框有文字時顯示清除按鈕
+        searchInput.addEventListener('input', function() {
+            if (this.value.trim().length > 0) {
+                clearBtn.classList.remove('hidden');
+            } else {
+                clearBtn.classList.add('hidden');
+            }
+        });
+
+        // 點擊清除按鈕清空輸入框並聚焦
+        clearBtn.addEventListener('click', function() {
+            searchInput.value = '';
+            clearBtn.classList.add('hidden');
+            searchInput.focus();
+        });
+
+        // 支援「好手氣」按鈕直接帶入 Google 的 I'm Feeling Lucky 參數
+        luckyBtn.addEventListener('click', function() {
+            const query = searchInput.value.trim();
+            if (query) {
+                window.open(`https://www.google.com/search?q=${encodeURIComponent(query)}&btnI=I`, '_blank');
+            } else {
+                window.open('https://www.google.com/doodles', '_blank');
+            }
+        });
+    </script>
+</body>
+</html>
+```
+eof
+
+您可以點擊右側預告（Preview）進行測試，輸入關鍵字後按下 `Enter` 或點擊「Google 搜尋」按鈕，就會順利跳轉至 Google 搜尋結果頁面了！
